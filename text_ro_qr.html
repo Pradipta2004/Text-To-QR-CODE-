@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator with Factors</title>
+    <!-- Include the qrcode.min.js library for QR code generation -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2980b9, #6dd5fa, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        #textInput {
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #textInput:focus {
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #qrcode {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <label for="textInput">Enter the Text:</label>
+    <input type="text" id="textInput" placeholder="Enter text">
+
+    <div>
+        <button onclick="generateQRCode()">Generate QR Code</button>
+        <button onclick="downloadQRCode()">Download QR Code</button>
+    </div>
+
+    <div id="qrcode"></div>
+
+    <script>
+        // Function to generate the QR code
+        function generateQRCode() {
+            const textInput = document.getElementById("textInput").value;
+
+            // Clear the previous QR code
+            const qrcodeDiv = document.getElementById("qrcode");
+            qrcodeDiv.innerHTML = "";
+
+            // Create a new QRCode instance with the data
+            const qrData = textInput;
+            const qrcode = new QRCode(qrcodeDiv, {
+                text: qrData,
+                width: 150,
+                height: 150,
+            });
+        }
+
+        // Function to download the QR code as an image
+        function downloadQRCode() {
+            const qrcodeCanvas = document.querySelector("#qrcode canvas");
+
+            // Create a temporary anchor element
+            const downloadLink = document.createElement("a");
+            downloadLink.href = qrcodeCanvas.toDataURL("image/png");
+            downloadLink.download = "qrcode.png";
+
+            // Simulate a click on the anchor element
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+</body>
+</html>
